@@ -31,6 +31,20 @@ public class DataInitializer implements CommandLineRunner {
     private final ObjectMapper objectMapper;
 
     private Map<String, List<String>> blogContentMap;
+    private final Map<String, Map<String, List<String>>> learnContentCache = new java.util.HashMap<>();
+
+    private List<String> getLearnContent(String moduleSlug, String lessonSlug) {
+        learnContentCache.computeIfAbsent(moduleSlug, slug -> {
+            try {
+                InputStream is = new ClassPathResource("data/learn/" + slug + ".json").getInputStream();
+                return objectMapper.readValue(is, new TypeReference<Map<String, List<String>>>() {});
+            } catch (Exception e) {
+                return Collections.emptyMap();
+            }
+        });
+        return learnContentCache.getOrDefault(moduleSlug, Collections.emptyMap())
+                                .getOrDefault(lessonSlug, Collections.emptyList());
+    }
 
     private Map<String, List<String>> loadBlogContent() {
         if (blogContentMap != null) return blogContentMap;
@@ -358,147 +372,144 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void initLearnModules() {
-        if (learnModuleRepository.count() > 0) return;
+        LearnModule mod1 = findOrCreateModule(1, "fundamentos", "Fundamentos de Claude Code",
+                "Que es Claude Code, como instalarlo, y tu primera sesion interactiva.", "Terminal");
+        LearnModule mod2 = findOrCreateModule(2, "modelos", "Modelos de IA: Opus, Sonnet, Haiku",
+                "Guia completa sobre los 3 modelos de Claude: cuando usarlos, costos, velocidad y casos de uso.", "Zap");
+        LearnModule mod3 = findOrCreateModule(3, "arquitectura-avanzada", "Arquitectura Avanzada con Claude Code",
+                "Patrones avanzados: agentes, skills, commands, hooks, y estrategias de ahorro de tokens.", "Building2");
+        LearnModule mod4 = findOrCreateModule(4, "agents", "Agents y Sub-agentes Especializados",
+                "Como crear y orquestar agentes que trabajan en paralelo para resolver tareas complejas.", "Bot");
+        LearnModule mod5 = findOrCreateModule(5, "skills", "Skills: Sistema de Habilidades",
+                "Modulos de conocimiento reutilizables que Claude Code carga bajo demanda.", "Layers");
+        LearnModule mod6 = findOrCreateModule(6, "commands", "Slash Commands Personalizados",
+                "Crea atajos poderosos como /java-hex-architect, /swagger, /hu-generator.", "Zap");
+        LearnModule mod7 = findOrCreateModule(7, "hooks", "Hooks: Automatizacion basada en Eventos",
+                "Intercepta acciones antes o despues de ejecutarse para automatizar validaciones.", "Workflow");
+        LearnModule mod8 = findOrCreateModule(8, "mcp", "MCP: Model Context Protocol",
+                "Conecta Claude Code con servicios externos: GitHub, Supabase, Railway, Puppeteer.", "Network");
+        LearnModule mod9 = findOrCreateModule(9, "memoria", "Memoria Persistente",
+                "Sistema que recuerda contexto entre sesiones para mantener continuidad en tu flujo de trabajo.", "Brain");
 
-        LearnModule mod1 = saveLearnModule(1, "fundamentos", "Fundamentos de Claude Code",
-                "Que es Claude Code, como instalarlo, y tu primera sesion interactiva.",
-                "Terminal");
+        if (mod1.getLessons().isEmpty()) {
+            saveLesson(mod1, "que-es-claude-code", "Que es Claude Code",
+                    "La CLI oficial de Anthropic que convierte tu terminal en un copiloto de desarrollo con IA.", "5 min",
+                    getLearnContent("fundamentos", "que-es-claude-code"));
+            saveLesson(mod1, "instalacion-y-primera-sesion", "Instalacion y primera sesion",
+                    "Instala Claude Code y ejecuta tu primera sesion interactiva en menos de 5 minutos.", "4 min",
+                    getLearnContent("fundamentos", "instalacion-y-primera-sesion"));
+            saveLesson(mod1, "claude-md-configuracion", "CLAUDE.md: La configuracion del proyecto",
+                    "El archivo que define como Claude Code interactua con tu proyecto especifico.", "6 min",
+                    getLearnContent("fundamentos", "claude-md-configuracion"));
+        }
 
-        LearnModule mod2 = saveLearnModule(2, "modelos", "Modelos de IA: Opus, Sonnet, Haiku",
-                "Guia completa sobre los 3 modelos de Claude: cuando usarlos, costos, velocidad y casos de uso.",
-                "Zap");
+        if (mod2.getLessons().isEmpty()) {
+            saveLesson(mod2, "modelos-comparacion", "Comparacion de modelos",
+                    "Analisis detallado de Opus, Sonnet y Haiku: velocidad, costo, casos de uso.", "8 min",
+                    getLearnContent("modelos", "modelos-comparacion"));
+            saveLesson(mod2, "cuando-usar-cada-modelo", "Cuando usar cada modelo",
+                    "Guia practica para elegir el modelo correcto segun tu tarea.", "6 min",
+                    getLearnContent("modelos", "cuando-usar-cada-modelo"));
+            saveLesson(mod2, "fast-mode", "Fast Mode: Mismo modelo, mas rapido",
+                    "Fast Mode acelera la salida de texto sin cambiar el modelo subyacente.", "3 min",
+                    getLearnContent("modelos", "fast-mode"));
+        }
 
-        LearnModule mod3 = saveLearnModule(3, "arquitectura-avanzada", "Arquitectura Avanzada con Claude Code",
-                "Patrones avanzados: agentes, skills, commands, hooks, y estrategias de ahorro de tokens.",
-                "Building2");
+        if (mod3.getLessons().isEmpty()) {
+            saveLesson(mod3, "arquitectura-extensibilidad", "Arquitectura de Extensibilidad",
+                    "Como Claude Code se extiende con Skills, Agents, Hooks, MCP y Plugins.", "7 min",
+                    getLearnContent("arquitectura-avanzada", "arquitectura-extensibilidad"));
+            saveLesson(mod3, "estrategias-ahorro-tokens", "Estrategias de Ahorro de Tokens",
+                    "Tecnicas para reducir costos y mantener el context window bajo control.", "9 min",
+                    getLearnContent("arquitectura-avanzada", "estrategias-ahorro-tokens"));
+            saveLesson(mod3, "git-integration", "Git Integration: Commits y PRs con IA",
+                    "Como Claude Code trabaja con Git para generar commits descriptivos y Pull Requests.", "6 min",
+                    getLearnContent("arquitectura-avanzada", "git-integration"));
+        }
 
-        LearnModule mod4 = saveLearnModule(4, "agents", "Agents y Sub-agentes Especializados",
-                "Como crear y orquestar agentes que trabajan en paralelo para resolver tareas complejas.",
-                "Bot");
+        if (mod4.getLessons().isEmpty()) {
+            saveLesson(mod4, "que-son-agents", "Que son los Agents",
+                    "Aprende como funcionan los agentes autonomos y cuando usarlos.", "7 min",
+                    getLearnContent("agents", "que-son-agents"));
+            saveLesson(mod4, "crear-subagentes", "Crear y Orquestar Sub-agentes",
+                    "Crea equipos de agentes especializados que trabajan en paralelo.", "9 min",
+                    getLearnContent("agents", "crear-subagentes"));
+            saveLesson(mod4, "agentes-builtin", "Agentes Built-in de Claude Code",
+                    "Explore, Plan y otros agentes que Claude Code incluye por defecto.", "5 min",
+                    getLearnContent("agents", "agentes-builtin"));
+        }
 
-        LearnModule mod5 = saveLearnModule(5, "skills", "Skills: Sistema de Habilidades",
-                "Modulos de conocimiento reutilizables que Claude Code carga bajo demanda.",
-                "Layers");
+        if (mod5.getLessons().isEmpty()) {
+            saveLesson(mod5, "skills-vs-commands", "Skills vs Custom Commands",
+                    "Cuando usar un Skill con directorio vs un Command de un solo archivo.", "6 min",
+                    getLearnContent("skills", "skills-vs-commands"));
+            saveLesson(mod5, "crear-skill", "Crear tu primer Skill",
+                    "Crea un Skill /ship para automatizar el workflow de entrega completo.", "8 min",
+                    getLearnContent("skills", "crear-skill"));
+            saveLesson(mod5, "skills-avanzados", "Skills avanzados: fix-issue y hex-migrate",
+                    "Skills para resolver GitHub issues y migrar a arquitectura hexagonal.", "7 min",
+                    getLearnContent("skills", "skills-avanzados"));
+        }
 
-        LearnModule mod6 = saveLearnModule(6, "commands", "Slash Commands Personalizados",
-                "Crea atajos poderosos como /java-hex-architect, /swagger, /hu-generator.",
-                "Zap");
+        if (mod6.getLessons().isEmpty()) {
+            saveLesson(mod6, "que-son-slash-commands", "Que son los Slash Commands",
+                    "Comandos personalizados que se ejecutan con /nombre para tareas complejas.", "5 min",
+                    getLearnContent("commands", "que-son-slash-commands"));
+            saveLesson(mod6, "comandos-para-java", "Comandos para desarrollo Java",
+                    "Crea /java-hex-architect, /swagger y /hu-generator para tu proyecto Java.", "9 min",
+                    getLearnContent("commands", "comandos-para-java"));
+            saveLesson(mod6, "comandos-con-argumentos", "Argumentos y variables en Commands",
+                    "Usa $ARGUMENTS, $0, $1 para crear comandos dinamicos y reutilizables.", "5 min",
+                    getLearnContent("commands", "comandos-con-argumentos"));
+        }
 
-        LearnModule mod7 = saveLearnModule(7, "hooks", "Hooks: Automatizacion basada en Eventos",
-                "Intercepta acciones antes o despues de ejecutarse para automatizar validaciones.",
-                "Workflow");
+        if (mod7.getLessons().isEmpty()) {
+            saveLesson(mod7, "que-son-hooks", "Que son los Hooks",
+                    "Scripts que se ejecutan automaticamente en eventos del ciclo de vida de Claude Code.", "6 min",
+                    getLearnContent("hooks", "que-son-hooks"));
+            saveLesson(mod7, "hooks-de-validacion", "Hooks de validacion para proyectos Java",
+                    "Crea hooks para validar pureza del dominio, commits y bloquear comandos peligrosos.", "10 min",
+                    getLearnContent("hooks", "hooks-de-validacion"));
+            saveLesson(mod7, "configuracion-hooks", "Configuracion de Hooks en settings.json",
+                    "Como configurar multiples hooks con matchers y timeouts.", "6 min",
+                    getLearnContent("hooks", "configuracion-hooks"));
+        }
 
-        LearnModule mod8 = saveLearnModule(8, "mcp", "MCP: Model Context Protocol",
-                "Conecta Claude Code con servicios externos: GitHub, Supabase, Railway, Puppeteer.",
-                "Network");
+        if (mod8.getLessons().isEmpty()) {
+            saveLesson(mod8, "que-es-mcp", "Que es MCP y por que importa",
+                    "El protocolo que conecta Claude Code con herramientas y servicios externos.", "7 min",
+                    getLearnContent("mcp", "que-es-mcp"));
+            saveLesson(mod8, "mcp-populares", "MCP Servers mas utiles para desarrollo",
+                    "PostgreSQL, GitHub, Context7, Puppeteer y Shadcn UI para potenciar tu workflow.", "10 min",
+                    getLearnContent("mcp", "mcp-populares"));
+            saveLesson(mod8, "configurar-mcp", "Configurar MCP Servers",
+                    "Como instalar y configurar MCP servers en tu proyecto paso a paso.", "7 min",
+                    getLearnContent("mcp", "configurar-mcp"));
+        }
 
-        LearnModule mod9 = saveLearnModule(9, "memoria", "Memoria Persistente",
-                "Sistema que recuerda contexto entre sesiones para mantener continuidad en tu flujo de trabajo.",
-                "Brain");
-
-        // Add lessons for fundamentos module
-        saveLesson(mod1, "que-es-claude-code", "Que es Claude Code",
-                "La CLI oficial de Anthropic que convierte tu terminal en un copiloto de desarrollo con IA.",
-                "5 min",
-                java.util.Arrays.asList(
-                        "Claude Code es la interfaz de linea de comandos (CLI) oficial de Anthropic.",
-                        "## Que puede hacer",
-                        "- Leer y escribir archivos de tu proyecto directamente",
-                        "- Ejecutar comandos en tu terminal (npm, git, docker, etc.)",
-                        "- Buscar en tu codebase con herramientas optimizadas",
-                        "- Conectarse a servicios externos via MCP",
-                        "- Recordar contexto entre sesiones con memoria persistente"
-                ));
-
-        saveLesson(mod1, "instalacion-y-primera-sesion", "Instalacion y primera sesion",
-                "Instala Claude Code y ejecuta tu primera sesion interactiva en menos de 5 minutos.",
-                "4 min",
-                java.util.Arrays.asList(
-                        "## Instalacion",
-                        "npm install -g @anthropic-ai/claude-code",
-                        "Verifica la instalacion:",
-                        "claude --version",
-                        "## Tu primera sesion",
-                        "Navega a cualquier proyecto y ejecuta: claude",
-                        "Claude Code detecta automaticamente el lenguaje del proyecto"
-                ));
-
-        // Add lessons for modelos module
-        saveLesson(mod2, "modelos-comparacion", "Comparacion de modelos",
-                "Analisis detallado de Opus, Sonnet y Haiku: velocidad, costo, casos de uso.",
-                "8 min",
-                java.util.Arrays.asList(
-                        "## Los 3 modelos de Claude",
-                        "### Claude Opus 4.6 - El cerebro",
-                        "- Velocidad: Lento (15-60s)",
-                        "- Razonamiento: Maximo",
-                        "- Mejor para: Arquitectura, code review profundo, decisiones complejas",
-                        "### Claude Sonnet 4.6 - El equilibrio",
-                        "- Velocidad: Rapido (3-15s)",
-                        "- Razonamiento: Alto",
-                        "- Mejor para: Desarrollo diario, generacion de codigo",
-                        "### Claude Haiku 4.5 - El veloz",
-                        "- Velocidad: Muy rapido (1-5s)",
-                        "- Razonamiento: Bueno",
-                        "- Mejor para: Validaciones rapidas, formateo, tareas repetitivas"
-                ));
-
-        saveLesson(mod2, "cuando-usar-cada-modelo", "Cuando usar cada modelo",
-                "Guia practica para elegir el modelo correcto segun tu tarea.",
-                "6 min",
-                java.util.Arrays.asList(
-                        "## Decision rapida",
-                        "### Desarrollo diario → Sonnet (default)",
-                        "Escribe codigo, haz cambios, ejecuta tests con Sonnet",
-                        "### Analizar arquitectura → Opus",
-                        "Decisiones complejas de diseno, code review exhaustivo",
-                        "### Validaciones mecanicas → Haiku",
-                        "Renombrar variables, formatear datos, linting"
-                ));
-
-        // Add lessons for agents module
-        saveLesson(mod4, "que-son-agents", "Que son los Agents",
-                "Aprende como funcionan los agentes autonomos y cuando usarlos.",
-                "7 min",
-                java.util.Arrays.asList(
-                        "Un agent es una instancia especializada de Claude Code que funciona de forma autonoma.",
-                        "## Caracteristicas",
-                        "- Contexto separado del principal",
-                        "- Puede usar otro modelo",
-                        "- Limite de contexto independiente",
-                        "- Perfecto para tareas complejas",
-                        "## Cuando usar agents",
-                        "- Tareas de investigacion profunda",
-                        "- Code review exhaustivo",
-                        "- Generacion de multiples archivos",
-                        "- Procesamiento de datos grandes"
-                ));
-
-        saveLesson(mod4, "crear-subagentes", "Crear y Orquestar Sub-agentes",
-                "Crea equipos de agentes especializados que trabajan en paralelo.",
-                "9 min",
-                java.util.Arrays.asList(
-                        "## Flujo de creacion",
-                        "1. Define el rol del agente",
-                        "2. Especifica las herramientas disponibles",
-                        "3. Configura el modelo (Opus, Sonnet, Haiku)",
-                        "4. Ejecuta el agente",
-                        "## Ejemplo de equipo",
-                        "- Researcher: Investiga requisitos",
-                        "- Architect: Diseña la solucion",
-                        "- Developer: Implementa el codigo",
-                        "- Tester: Valida la calidad"
-                ));
+        if (mod9.getLessons().isEmpty()) {
+            saveLesson(mod9, "como-funciona-memoria", "Como funciona la Memoria Persistente",
+                    "El sistema automatico que recuerda contexto entre sesiones de Claude Code.", "7 min",
+                    getLearnContent("memoria", "como-funciona-memoria"));
+            saveLesson(mod9, "gestionar-memoria", "Gestionar tu memoria con /memory",
+                    "Usa el comando /memory para ver, editar y organizar la memoria de tu proyecto.", "5 min",
+                    getLearnContent("memoria", "gestionar-memoria"));
+            saveLesson(mod9, "agentes-con-memoria", "Agentes con Memoria Persistente",
+                    "Configura subagentes que aprenden y recuerdan entre sesiones.", "5 min",
+                    getLearnContent("memoria", "agentes-con-memoria"));
+        }
     }
 
-    private LearnModule saveLearnModule(int order, String slug, String title, String description, String icon) {
-        LearnModule module = new LearnModule();
-        module.setSlug(slug);
-        module.setTitle(title);
-        module.setDescription(description);
-        module.setIcon(icon);
-        module.setDisplayOrder(order);
-        return learnModuleRepository.save(module);
+    private LearnModule findOrCreateModule(int order, String slug, String title, String description, String icon) {
+        return learnModuleRepository.findBySlug(slug).orElseGet(() -> {
+            LearnModule module = new LearnModule();
+            module.setSlug(slug);
+            module.setTitle(title);
+            module.setDescription(description);
+            module.setIcon(icon);
+            module.setDisplayOrder(order);
+            return learnModuleRepository.save(module);
+        });
     }
 
     private void saveLesson(LearnModule module, String slug, String title, String excerpt, String readTime, java.util.List<String> content) {

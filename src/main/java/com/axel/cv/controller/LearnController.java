@@ -1,7 +1,9 @@
 package com.axel.cv.controller;
 
 import com.axel.cv.dto.LearnLessonDto;
+import com.axel.cv.dto.LearnLessonSummaryDto;
 import com.axel.cv.dto.LearnModuleDto;
+import com.axel.cv.dto.LearnModuleSummaryDto;
 import com.axel.cv.service.LearnService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +18,7 @@ public class LearnController {
     private final LearnService learnService;
 
     @GetMapping("/modules")
-    public List<LearnModuleDto> getAllModules() {
+    public List<LearnModuleSummaryDto> getAllModules() {
         return learnService.getAllModules();
     }
 
@@ -26,7 +28,7 @@ public class LearnController {
     }
 
     @GetMapping("/modules/{moduleSlug}/lessons")
-    public List<LearnLessonDto> getLessonsByModule(@PathVariable String moduleSlug) {
+    public List<LearnLessonSummaryDto> getLessonsByModule(@PathVariable String moduleSlug) {
         return learnService.getLessonsByModuleSlug(moduleSlug);
     }
 

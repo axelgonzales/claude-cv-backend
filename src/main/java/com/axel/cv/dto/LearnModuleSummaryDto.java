@@ -1,12 +1,10 @@
 package com.axel.cv.dto;
 
-import java.util.List;
-
-public record LearnModuleDto(
+public record LearnModuleSummaryDto(
     String slug,
     String title,
     String description,
     String icon,
     Integer displayOrder,
-    List<LearnLessonSummaryDto> lessons
+    int lessonCount
 ) {}

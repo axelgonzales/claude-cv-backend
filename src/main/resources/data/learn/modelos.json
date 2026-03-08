@@ -1,0 +1,48 @@
+{
+  "modelos-comparacion": [
+    "## Los 3 modelos de Claude (2025)",
+    "### Claude Opus 4.6 — El cerebro",
+    "- Velocidad: Lento (15-60 segundos)",
+    "- Razonamiento: Maximo, profundo",
+    "- Mejor para: Arquitectura compleja, analisis profundo, decisiones criticas",
+    "- ID: claude-opus-4-6",
+    "### Claude Sonnet 4.6 — El equilibrio (DEFAULT)",
+    "- Velocidad: Rapido (3-15 segundos)",
+    "- Razonamiento: Alto, muy capaz",
+    "- Mejor para: Desarrollo diario, generacion de codigo, refactoring",
+    "- ID: claude-sonnet-4-6",
+    "### Claude Haiku 4.5 — El veloz",
+    "- Velocidad: Muy rapido (1-5 segundos)",
+    "- Razonamiento: Bueno para tareas simples",
+    "- Mejor para: Validaciones rapidas, formateo, hooks de automatizacion",
+    "- ID: claude-haiku-4-5-20251001"
+  ],
+  "cuando-usar-cada-modelo": [
+    "## Decision rapida",
+    "### Desarrollo diario → Sonnet (default)",
+    "Para escribir codigo, hacer cambios, ejecutar tests. Es el balance perfecto.",
+    "claude  # usa Sonnet por defecto",
+    "### Analizar arquitectura o problemas complejos → Opus",
+    "Para decisiones de diseno importantes o code review exhaustivo.",
+    "claude --model claude-opus-4-6",
+    "### Validaciones mecanicas → Haiku",
+    "Para renombrar variables, formatear datos, validaciones simples.",
+    "Ideal para hooks y subagentes de validacion",
+    "## En subagentes y hooks",
+    "Puedes especificar el modelo en el frontmatter del agente:",
+    "model: haiku  # para validaciones rapidas",
+    "model: opus   # para analisis profundo",
+    "model: sonnet # para implementacion general"
+  ],
+  "fast-mode": [
+    "## Que es Fast Mode",
+    "Fast Mode usa el mismo Claude Opus 4.6 pero con salida de texto mas rapida.",
+    "NO cambia el modelo, solo acelera la velocidad de escritura de la respuesta.",
+    "## Como activarlo",
+    "/fast  # Toggle on/off",
+    "## Cuando usarlo",
+    "- Cuando necesitas respuestas rapidas pero no quieres bajar de modelo",
+    "- Para explorar opciones rapidamente",
+    "- En sesiones donde el tiempo de respuesta importa mas que la calidad de presentacion"
+  ]
+}

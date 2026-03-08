@@ -1,0 +1,53 @@
+{
+  "que-es-claude-code": [
+    "Claude Code es la interfaz de linea de comandos (CLI) oficial de Anthropic que te permite colaborar con IA directamente desde tu terminal.",
+    "## Que puede hacer",
+    "- Leer y escribir archivos de tu proyecto directamente",
+    "- Ejecutar comandos en tu terminal (npm, git, docker, maven)",
+    "- Buscar en tu codebase con herramientas optimizadas (Grep, Glob)",
+    "- Conectarse a servicios externos via MCP Servers",
+    "- Recordar contexto entre sesiones con memoria persistente",
+    "## Por que es diferente a un chatbot",
+    "A diferencia de un chat web, Claude Code tiene acceso real a tus archivos y puede ejecutar comandos. No copia y pega codigo: lo escribe directamente en tu proyecto.",
+    "## Modelo por defecto",
+    "Claude Code usa Claude Sonnet por defecto. Puedes cambiar el modelo con /model."
+  ],
+  "instalacion-y-primera-sesion": [
+    "## Requisitos",
+    "- Node.js 18 o superior",
+    "- npm o yarn",
+    "## Instalacion",
+    "npm install -g @anthropic-ai/claude-code",
+    "Verifica la instalacion con: claude --version",
+    "## Tu primera sesion",
+    "1. Navega a tu proyecto: cd mi-proyecto",
+    "2. Ejecuta: claude",
+    "3. Claude detecta automaticamente el lenguaje y estructura del proyecto",
+    "## Comandos esenciales",
+    "- /help — Ver todos los comandos disponibles",
+    "- /clear — Limpiar el contexto de la sesion",
+    "- /compact — Comprimir la conversacion para ahorrar tokens",
+    "- Ctrl+C — Cancelar la accion actual"
+  ],
+  "claude-md-configuracion": [
+    "CLAUDE.md es el archivo de configuracion que Claude Code lee al iniciar cada sesion. Define las reglas, convenciones y contexto especifico de tu proyecto.",
+    "## Donde crearlo",
+    "En la raiz de tu proyecto: ./CLAUDE.md",
+    "## Que incluir (30 lineas max)",
+    "- Comandos de build especificos: ./mvnw clean install",
+    "- Reglas de codigo que difieren del estandar",
+    "- Referencias a documentacion detallada",
+    "- Arquitectura y stack tecnologico",
+    "## Que NO incluir",
+    "- Convenciones estandar del lenguaje (Claude ya las conoce)",
+    "- Documentacion API detallada (ponla en .claude/docs/)",
+    "- Informacion que cambia frecuentemente",
+    "## Ejemplo minimo",
+    "# Mi Proyecto",
+    "## Build: ./mvnw clean install",
+    "## Reglas: NO usar @Data de Lombok",
+    "## Docs: Ver .claude/docs/ para reglas detalladas",
+    "## Tip",
+    "Trata CLAUDE.md como codigo: revisalo cuando algo salga mal, podalo regularmente."
+  ]
+}
