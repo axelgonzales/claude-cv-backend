@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface LearnLessonRepository extends JpaRepository<LearnLesson, Long> {
     Optional<LearnLesson> findByModuleSlugAndSlug(String moduleSlug, String lessonSlug);
+    boolean existsByModule(com.axel.cv.model.LearnModule module);
 }

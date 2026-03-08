@@ -391,7 +391,7 @@ public class DataInitializer implements CommandLineRunner {
         LearnModule mod9 = findOrCreateModule(9, "memoria", "Memoria Persistente",
                 "Sistema que recuerda contexto entre sesiones para mantener continuidad en tu flujo de trabajo.", "Brain");
 
-        if (mod1.getLessons().isEmpty()) {
+        if (!learnLessonRepository.existsByModule(mod1)) {
             saveLesson(mod1, "que-es-claude-code", "Que es Claude Code",
                     "La CLI oficial de Anthropic que convierte tu terminal en un copiloto de desarrollo con IA.", "5 min",
                     getLearnContent("fundamentos", "que-es-claude-code"));
@@ -403,7 +403,7 @@ public class DataInitializer implements CommandLineRunner {
                     getLearnContent("fundamentos", "claude-md-configuracion"));
         }
 
-        if (mod2.getLessons().isEmpty()) {
+        if (!learnLessonRepository.existsByModule(mod2)) {
             saveLesson(mod2, "modelos-comparacion", "Comparacion de modelos",
                     "Analisis detallado de Opus, Sonnet y Haiku: velocidad, costo, casos de uso.", "8 min",
                     getLearnContent("modelos", "modelos-comparacion"));
@@ -415,7 +415,7 @@ public class DataInitializer implements CommandLineRunner {
                     getLearnContent("modelos", "fast-mode"));
         }
 
-        if (mod3.getLessons().isEmpty()) {
+        if (!learnLessonRepository.existsByModule(mod3)) {
             saveLesson(mod3, "arquitectura-extensibilidad", "Arquitectura de Extensibilidad",
                     "Como Claude Code se extiende con Skills, Agents, Hooks, MCP y Plugins.", "7 min",
                     getLearnContent("arquitectura-avanzada", "arquitectura-extensibilidad"));
@@ -427,7 +427,7 @@ public class DataInitializer implements CommandLineRunner {
                     getLearnContent("arquitectura-avanzada", "git-integration"));
         }
 
-        if (mod4.getLessons().isEmpty()) {
+        if (!learnLessonRepository.existsByModule(mod4)) {
             saveLesson(mod4, "que-son-agents", "Que son los Agents",
                     "Aprende como funcionan los agentes autonomos y cuando usarlos.", "7 min",
                     getLearnContent("agents", "que-son-agents"));
@@ -439,7 +439,7 @@ public class DataInitializer implements CommandLineRunner {
                     getLearnContent("agents", "agentes-builtin"));
         }
 
-        if (mod5.getLessons().isEmpty()) {
+        if (!learnLessonRepository.existsByModule(mod5)) {
             saveLesson(mod5, "skills-vs-commands", "Skills vs Custom Commands",
                     "Cuando usar un Skill con directorio vs un Command de un solo archivo.", "6 min",
                     getLearnContent("skills", "skills-vs-commands"));
@@ -451,7 +451,7 @@ public class DataInitializer implements CommandLineRunner {
                     getLearnContent("skills", "skills-avanzados"));
         }
 
-        if (mod6.getLessons().isEmpty()) {
+        if (!learnLessonRepository.existsByModule(mod6)) {
             saveLesson(mod6, "que-son-slash-commands", "Que son los Slash Commands",
                     "Comandos personalizados que se ejecutan con /nombre para tareas complejas.", "5 min",
                     getLearnContent("commands", "que-son-slash-commands"));
@@ -463,7 +463,7 @@ public class DataInitializer implements CommandLineRunner {
                     getLearnContent("commands", "comandos-con-argumentos"));
         }
 
-        if (mod7.getLessons().isEmpty()) {
+        if (!learnLessonRepository.existsByModule(mod7)) {
             saveLesson(mod7, "que-son-hooks", "Que son los Hooks",
                     "Scripts que se ejecutan automaticamente en eventos del ciclo de vida de Claude Code.", "6 min",
                     getLearnContent("hooks", "que-son-hooks"));
@@ -475,7 +475,7 @@ public class DataInitializer implements CommandLineRunner {
                     getLearnContent("hooks", "configuracion-hooks"));
         }
 
-        if (mod8.getLessons().isEmpty()) {
+        if (!learnLessonRepository.existsByModule(mod8)) {
             saveLesson(mod8, "que-es-mcp", "Que es MCP y por que importa",
                     "El protocolo que conecta Claude Code con herramientas y servicios externos.", "7 min",
                     getLearnContent("mcp", "que-es-mcp"));
@@ -487,7 +487,7 @@ public class DataInitializer implements CommandLineRunner {
                     getLearnContent("mcp", "configurar-mcp"));
         }
 
-        if (mod9.getLessons().isEmpty()) {
+        if (!learnLessonRepository.existsByModule(mod9)) {
             saveLesson(mod9, "como-funciona-memoria", "Como funciona la Memoria Persistente",
                     "El sistema automatico que recuerda contexto entre sesiones de Claude Code.", "7 min",
                     getLearnContent("memoria", "como-funciona-memoria"));
