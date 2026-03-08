@@ -1,0 +1,46 @@
+{
+  "que-son-plugins": [
+    "Los plugins son extensiones empaquetadas que agregan capacidades a Claude Code de forma reutilizable y compartible.",
+    "## Diferencia con Skills y Commands",
+    "Un Skill o Command vive en tu proyecto. Un Plugin es un paquete independiente que puedes instalar en cualquier proyecto con un solo comando.",
+    "## Anatomia de un Plugin",
+    "Un plugin puede contener: Skills (SKILL.md), Commands (.md), Agents (.md), Hooks, y archivos de configuracion. Todo empaquetado en un archivo .plugin o distribuido via GitHub.",
+    "## Casos de uso ideales",
+    "Usa plugins cuando quieras reutilizar el mismo conjunto de herramientas en multiples proyectos, o cuando quieras compartir tu workflow con tu equipo o la comunidad.",
+    "Plugin = Skill + Command + Agent + Config, todo en un paquete instalable."
+  ],
+  "instalar-plugins": [
+    "Instalar un plugin en Claude Code es simple: apunta al repositorio o archivo .plugin y se integra automaticamente.",
+    "## Instalacion desde GitHub",
+    "En tu settings.json o .mcp.json, agrega la referencia al plugin. Claude Code descarga y activa todos sus componentes.",
+    "## Configuracion con .local.md",
+    "Los plugins bien diseñados usan archivos .local.md para que configures valores especificos de tu proyecto sin modificar el plugin original.",
+    "## Permisos y seguridad",
+    "Cada plugin declara que herramientas necesita (Bash, Read, Edit...). Revisa siempre los permisos antes de instalar un plugin de terceros.",
+    "## Actualizar y desinstalar",
+    "Los plugins se pueden actualizar a nuevas versiones o desinstalar limpiamente sin dejar rastros en tu proyecto."
+  ],
+  "marketplace": [
+    "El Marketplace de Claude Code es el catalogo donde la comunidad publica y descubre plugins, skills y agents.",
+    "## Que encontraras",
+    "Skills para frameworks especificos (Java Hexagonal, React, FastAPI), agents especializados (code-reviewer, swagger-expert), y paquetes completos de workflow.",
+    "## Como buscar",
+    "Busca por tecnologia, caso de uso o nombre. Cada plugin tiene descripcion, ejemplos de uso, y calificaciones de la comunidad.",
+    "## Plugins destacados en este proyecto",
+    "Este CV usa: java-layered-arch (arquitectura Spring Boot), swagger-expert (documentacion OpenAPI), hu-generator (historias de usuario), react-gen (frontend desde Swagger).",
+    "## Contribuir al Marketplace",
+    "Cualquier desarrollador puede publicar un plugin. La comunidad crece con cada contribucion."
+  ],
+  "crear-plugin": [
+    "Crear un plugin te permite empaquetar tu workflow completo y reutilizarlo en cualquier proyecto o compartirlo con tu equipo.",
+    "## Estructura del plugin",
+    "Un plugin es un directorio con: PLUGIN.md (manifest), skills/, commands/, agents/, hooks/, y assets/. Se empaqueta con el script de Claude Code.",
+    "## El PLUGIN.md (manifest)",
+    "Define el nombre, descripcion, version, autor, y que componentes incluye. Similar al package.json de npm pero para Claude Code.",
+    "## Paso a paso",
+    "1. Crea el directorio del plugin. 2. Agrega tus Skills, Commands y Agents. 3. Escribe el PLUGIN.md. 4. Ejecuta el script de empaquetado. 5. Publica en GitHub o el Marketplace.",
+    "## Versionado y actualizaciones",
+    "Usa semantic versioning (1.0.0, 1.1.0...). Los usuarios que instalen tu plugin pueden actualizar con un solo comando cuando publiques nuevas versiones.",
+    "El skill /create-plugin en este proyecto guia el proceso completo de creacion paso a paso."
+  ]
+}

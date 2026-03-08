@@ -390,6 +390,8 @@ public class DataInitializer implements CommandLineRunner {
                 "Conecta Claude Code con servicios externos: GitHub, Supabase, Railway, Puppeteer.", "Network");
         LearnModule mod9 = findOrCreateModule(9, "memoria", "Memoria Persistente",
                 "Sistema que recuerda contexto entre sesiones para mantener continuidad en tu flujo de trabajo.", "Brain");
+        LearnModule mod10 = findOrCreateModule(10, "plugins-marketplace", "Plugins y Marketplace",
+                "Extiende Claude Code con plugins de la comunidad y publica los tuyos en el marketplace.", "Package");
 
         if (!learnLessonRepository.existsByModule(mod1)) {
             saveLesson(mod1, "que-es-claude-code", "Que es Claude Code",
@@ -497,6 +499,21 @@ public class DataInitializer implements CommandLineRunner {
             saveLesson(mod9, "agentes-con-memoria", "Agentes con Memoria Persistente",
                     "Configura subagentes que aprenden y recuerdan entre sesiones.", "5 min",
                     getLearnContent("memoria", "agentes-con-memoria"));
+        }
+
+        if (!learnLessonRepository.existsByModule(mod10)) {
+            saveLesson(mod10, "que-son-plugins", "Que son los Plugins",
+                    "Los plugins extienden Claude Code con capacidades reutilizables empaquetadas para compartir.", "6 min",
+                    getLearnContent("plugins-marketplace", "que-son-plugins"));
+            saveLesson(mod10, "instalar-plugins", "Instalar y usar Plugins",
+                    "Instala plugins de la comunidad y configura permisos y settings en tu proyecto.", "7 min",
+                    getLearnContent("plugins-marketplace", "instalar-plugins"));
+            saveLesson(mod10, "marketplace", "El Marketplace de Claude Code",
+                    "Explora el catalogo de plugins disponibles: MCP servers, skills, agents y commands.", "5 min",
+                    getLearnContent("plugins-marketplace", "marketplace"));
+            saveLesson(mod10, "crear-plugin", "Crear y Publicar tu propio Plugin",
+                    "Empaqueta tus skills, commands y agents como un plugin reutilizable y publicalo.", "9 min",
+                    getLearnContent("plugins-marketplace", "crear-plugin"));
         }
     }
 
