@@ -34,6 +34,9 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/experience").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/education").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/skills").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/blog", "/api/blog/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/projects", "/api/projects/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/learn", "/api/learn/**").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(new FirebaseTokenFilter(), UsernamePasswordAuthenticationFilter.class);
