@@ -1,46 +1,43 @@
 {
   "que-son-plugins": [
-    "Los plugins son extensiones empaquetadas que agregan capacidades a Claude Code de forma reutilizable y compartible.",
-    "## Diferencia con Skills y Commands",
-    "Un Skill o Command vive en tu proyecto. Un Plugin es un paquete independiente que puedes instalar en cualquier proyecto con un solo comando.",
+    "Los Plugins son extensiones empaquetadas que agrupan Skills, Commands, Agents y Hooks en un solo paquete instalable. Mientras que un Skill vive en tu proyecto, un Plugin puede instalarse en cualquier proyecto con un solo comando.",
+    "## Command vs Skill vs Plugin — cual es la diferencia",
+    "```\n┌─────────────────┬───────────────────┬───────────────────────┬──────────────────────────┐\n│                 │ Command           │ Skill                 │ Plugin                   │\n├─────────────────┼───────────────────┼───────────────────────┼──────────────────────────┤\n│ Estructura      │ Un archivo .md    │ Directorio + SKILL.md │ Paquete completo         │\n├─────────────────┼───────────────────┼───────────────────────┼──────────────────────────┤\n│ Puede contener  │ Solo instrucciones│ Instrucciones +       │ Skills + Commands +      │\n│                 │                   │ templates + scripts   │ Agents + Hooks + Config  │\n├─────────────────┼───────────────────┼───────────────────────┼──────────────────────────┤\n│ Instalacion     │ Copiar archivo    │ Copiar directorio     │ Un solo comando          │\n├─────────────────┼───────────────────┼───────────────────────┼──────────────────────────┤\n│ Compartir       │ Manual (git)      │ Manual (git)          │ npm / GitHub / Marketplace│\n├─────────────────┼───────────────────┼───────────────────────┼──────────────────────────┤\n│ Versionado      │ Manual            │ Manual                │ Semantic versioning      │\n└─────────────────┴───────────────────┴───────────────────────┴──────────────────────────┘\n```",
     "## Anatomia de un Plugin",
-    "Un plugin puede contener: Skills (SKILL.md), Commands (.md), Agents (.md), Hooks, y archivos de configuracion. Todo empaquetado en un archivo .plugin o distribuido via GitHub.",
-    "## Casos de uso ideales",
-    "Usa plugins cuando quieras reutilizar el mismo conjunto de herramientas en multiples proyectos, o cuando quieras compartir tu workflow con tu equipo o la comunidad.",
-    "Plugin = Skill + Command + Agent + Config, todo en un paquete instalable."
+    "```\nmi-plugin/\n├── PLUGIN.md              ← Manifest (nombre, version, descripcion)\n├── skills/\n│   └── ship/\n│       └── SKILL.md       ← Skill /ship incluido\n├── commands/\n│   └── swagger.md         ← Command /swagger incluido\n├── agents/\n│   └── code-reviewer.md   ← Agente incluido\n├── hooks/\n│   └── validate-domain.sh ← Hook incluido\n└── assets/                ← Templates, ejemplos, docs\n    └── templates/\n```",
+    "**Plugin = la suma de todo lo anterior, empaquetado para reutilizar.**"
   ],
   "instalar-plugins": [
-    "Instalar un plugin en Claude Code es simple: apunta al repositorio o archivo .plugin y se integra automaticamente.",
+    "Instalar un plugin agrega automaticamente todos sus Skills, Commands, Agents y Hooks a tu proyecto.",
     "## Instalacion desde GitHub",
-    "En tu settings.json o .mcp.json, agrega la referencia al plugin. Claude Code descarga y activa todos sus componentes.",
-    "## Configuracion con .local.md",
-    "Los plugins bien diseñados usan archivos .local.md para que configures valores especificos de tu proyecto sin modificar el plugin original.",
-    "## Permisos y seguridad",
-    "Cada plugin declara que herramientas necesita (Bash, Read, Edit...). Revisa siempre los permisos antes de instalar un plugin de terceros.",
-    "## Actualizar y desinstalar",
-    "Los plugins se pueden actualizar a nuevas versiones o desinstalar limpiamente sin dejar rastros en tu proyecto."
+    "```json\n// En .claude/settings.json de tu proyecto\n{\n  \"plugins\": [\n    {\n      \"name\": \"java-hexagonal-toolkit\",\n      \"source\": \"github:axelgonzales/java-hex-plugin\",\n      \"version\": \"2.1.0\"\n    }\n  ]\n}\n```",
+    "## Configuracion con `.local.md` — personalizar sin modificar el plugin",
+    "```\n  El plugin viene con valores por defecto:\n  package-name: com.example\n  db-port: 5432\n\n  Tu creas un archivo de configuracion local:\n  .claude/plugins/java-hexagonal-toolkit/.local.md\n\n  # Configuracion local\n  package-name: com.axel.cv\n  db-port: 5433\n\n  El plugin usa TUS valores, sin modificar el plugin original.\n  Si el plugin se actualiza, tu configuracion local se mantiene.\n```",
+    "## Permisos y seguridad — que revisar antes de instalar",
+    "```\n┌─────────────────────────────┬──────────────────────────────────────────┐\n│ Permiso declarado           │ Que significa                            │\n├─────────────────────────────┼──────────────────────────────────────────┤\n│ tools: [\"Read\"]             │ Solo puede leer archivos                 │\n│ tools: [\"Bash\"]             │ Puede ejecutar comandos shell            │\n│ tools: [\"Write\", \"Edit\"]    │ Puede crear y modificar archivos         │\n│ tools: [\"*\"]                │ Acceso total — revisar con cuidado       │\n└─────────────────────────────┴──────────────────────────────────────────┘\n```",
+    "**Regla:** Desconfia de plugins de terceros que pidan `tools: [\"*\"]` sin una razon clara."
   ],
   "marketplace": [
-    "El Marketplace de Claude Code es el catalogo donde la comunidad publica y descubre plugins, skills y agents.",
-    "## Que encontraras",
-    "Skills para frameworks especificos (Java Hexagonal, React, FastAPI), agents especializados (code-reviewer, swagger-expert), y paquetes completos de workflow.",
-    "## Como buscar",
-    "Busca por tecnologia, caso de uso o nombre. Cada plugin tiene descripcion, ejemplos de uso, y calificaciones de la comunidad.",
-    "## Plugins destacados en este proyecto",
-    "Este CV usa: java-layered-arch (arquitectura Spring Boot), swagger-expert (documentacion OpenAPI), hu-generator (historias de usuario), react-gen (frontend desde Swagger).",
-    "## Contribuir al Marketplace",
-    "Cualquier desarrollador puede publicar un plugin. La comunidad crece con cada contribucion."
+    "El Marketplace de Claude Code es el catalogo donde la comunidad publica y descubre plugins, skills y agents reutilizables.",
+    "## Que encontraras en el Marketplace",
+    "```\n┌──────────────────────────┬────────────────────────────────────────────┐\n│ Categoria                │ Ejemplos                                   │\n├──────────────────────────┼────────────────────────────────────────────┤\n│ Arquitectura Java        │ java-hexagonal, java-layered, java-ddd     │\n│ Frontend React           │ react-gen, shadcn-toolkit, next-patterns   │\n│ Documentacion            │ swagger-expert, jsdoc-gen, readme-gen      │\n│ Testing                  │ junit5-gen, playwright-toolkit, postman    │\n│ DevOps                   │ docker-compose, k8s-helper, railway-deploy │\n│ Workflow completo        │ full-stack-gen, api-first, hex-migrator    │\n└──────────────────────────┴────────────────────────────────────────────┘\n```",
+    "## Plugins usados en este proyecto CV",
+    "- **java-layered-arch** — Arquitectura Spring Boot con entidades, repositorios y servicios",
+    "- **swagger-expert** — Genera documentacion OpenAPI 3.0 completa desde los controllers",
+    "- **hu-generator** — Historias de usuario con criterios de aceptacion tecnicos",
+    "- **react-gen** — Frontend React completo generado desde la especificacion Swagger",
+    "## Como contribuir al Marketplace",
+    "```\n1. Desarrolla tu plugin localmente\n2. Publialo en GitHub con el formato correcto\n3. Registralo en el Marketplace con:\n   claude plugin publish\n4. La comunidad puede instalarlo con:\n   claude plugin install tu-usuario/tu-plugin\n```"
   ],
   "crear-plugin": [
     "Crear un plugin te permite empaquetar tu workflow completo y reutilizarlo en cualquier proyecto o compartirlo con tu equipo.",
-    "## Estructura del plugin",
-    "Un plugin es un directorio con: PLUGIN.md (manifest), skills/, commands/, agents/, hooks/, y assets/. Se empaqueta con el script de Claude Code.",
-    "## El PLUGIN.md (manifest)",
-    "Define el nombre, descripcion, version, autor, y que componentes incluye. Similar al package.json de npm pero para Claude Code.",
-    "## Paso a paso",
-    "1. Crea el directorio del plugin. 2. Agrega tus Skills, Commands y Agents. 3. Escribe el PLUGIN.md. 4. Ejecuta el script de empaquetado. 5. Publica en GitHub o el Marketplace.",
-    "## Versionado y actualizaciones",
-    "Usa semantic versioning (1.0.0, 1.1.0...). Los usuarios que instalen tu plugin pueden actualizar con un solo comando cuando publiques nuevas versiones.",
-    "El skill /create-plugin en este proyecto guia el proceso completo de creacion paso a paso."
+    "## El PLUGIN.md — manifest del plugin",
+    "```yaml\n---\nname: java-hexagonal-toolkit\nversion: 1.0.0\nauthor: axelgonzales\ndescription: Toolkit completo para desarrollo Java con arquitectura hexagonal\nkeywords: [java, hexagonal, spring-boot, clean-architecture]\nlicense: MIT\n\ncomponents:\n  skills:\n    - ship\n    - hex-migrate\n  commands:\n    - java-hex-architect\n    - swagger\n    - hu-generator\n  agents:\n    - code-reviewer\n    - swagger-expert\n  hooks:\n    - validate-domain\n    - validate-commits\n---\n\n# Java Hexagonal Toolkit\n\nToolkit completo para proyectos Java 21 + Spring Boot 3.5 con arquitectura hexagonal.\n```",
+    "## Paso a paso para crear un plugin",
+    "```\n1. Crea el directorio\n   mkdir -p .claude/plugins/mi-plugin/\n\n2. Agrega los componentes que ya tienes:\n   cp -r .claude/skills/ship .claude/plugins/mi-plugin/skills/\n   cp -r .claude/agents/code-reviewer.md .claude/plugins/mi-plugin/agents/\n\n3. Crea el PLUGIN.md (manifest)\n\n4. Empaqueta:\n   claude plugin pack\n   → genera mi-plugin-1.0.0.plugin\n\n5. Publica:\n   claude plugin publish  ← al Marketplace\n   # o comparte el .plugin directamente con tu equipo\n```",
+    "### El skill /create-plugin te guia",
+    "Este proyecto incluye el skill `/create-plugin` que te hace preguntas sobre tu toolkit y genera la estructura del plugin automaticamente. Es el punto de partida recomendado.",
+    "## Versionado — buenas practicas",
+    "```\nSemantic Versioning: MAYOR.MENOR.PATCH\n\n1.0.0  ← Version inicial estable\n1.1.0  ← Nuevo skill o command agregado (compatible)\n1.1.1  ← Bug fix en un hook (compatible)\n2.0.0  ← Cambio que rompe compatibilidad (breaking change)\n\nLos usuarios pueden elegir actualizar o quedarse en la version que les funciona.\n```"
   ]
 }
