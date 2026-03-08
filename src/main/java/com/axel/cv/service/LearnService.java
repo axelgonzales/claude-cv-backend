@@ -24,12 +24,12 @@ public class LearnService {
     private final LearnLessonRepository lessonRepository;
 
     /**
-     * Returns lightweight summaries of all modules — no lessons included.
+     * Returns all modules with their lesson summaries (no lesson content).
      */
-    public List<LearnModuleSummaryDto> getAllModules() {
+    public List<LearnModuleDto> getAllModules() {
         return moduleRepository.findAll().stream()
             .sorted(Comparator.comparing(LearnModule::getDisplayOrder))
-            .map(this::mapToModuleSummaryDto)
+            .map(this::mapToModuleDto)
             .toList();
     }
 

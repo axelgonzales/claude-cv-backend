@@ -18,7 +18,7 @@ public class LearnController {
     private final LearnService learnService;
 
     @GetMapping("/modules")
-    public List<LearnModuleSummaryDto> getAllModules() {
+    public List<LearnModuleDto> getAllModules() {
         return learnService.getAllModules();
     }
 
